@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Checkout Ticket</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f5f7;
+    color:#111;
+}
+
+/* ================= HEADER ================= */
+
+.topbar{
+    background:#fff;
+    padding:18px 20px;
+    border-bottom:1px solid #e5e5e5;
+}
+
+.logo{
+    font-size:34px;
+    font-weight:900;
+    color:#103a75;
+    letter-spacing:2px;
+}
+
+/* ================= BANNER ================= */
+
+.banner img{
+    width:100%;
+    display:block;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+/* ================= TIMER ================= */
+
+.timer-box{
+    background:#111827;
+    color:#fff;
+    padding:18px;
+    border-radius:16px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.timer-box h2{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+#timer{
+    font-size:32px;
+    font-weight:bold;
+    color:#22c55e;
+}
+
+/* ================= CARD ================= */
+
+.card{
+    background:#fff;
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    margin-bottom:20px;
+}
+
+.card h2{
+    margin-bottom:20px;
+    color:#103a75;
+}
+
+/* ================= FORM ================= */
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:15px;
+}
+
+textarea{
+    resize:none;
+    height:100px;
+}
+
+/* ================= TOTAL ================= */
+
+.total-box{
+    background:#f8fafc;
+    padding:18px;
+    border-radius:14px;
+    margin-top:20px;
+}
+
+.total-box h3{
+    font-size:28px;
+    color:#103a75;
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+    width:100%;
+    border:none;
+    padding:18px;
+    border-radius:14px;
+    background:#103a75;
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:disabled{
+    background:#bfc7d8;
+    cursor:not-allowed;
+}
+
+/* ================= PAGE ================= */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* ================= QRIS ================= */
+
+.qris{
+    text-align:center;
+}
+
+.qris img{
+    width:100%;
+    max-width:300px;
+    border-radius:14px;
+    margin:20px auto;
+    display:block;
+}
+
+.payment-note{
+    background:#fff8e7;
+    padding:16px;
+    border-radius:12px;
+    margin-top:15px;
+    color:#8a6300;
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* ================= CHECKBOX ================= */
+
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:20px;
+}
+
+/* ================= LOADING ================= */
+
+#loadingPage{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0f172a;
+    z-index:9999;
+    color:#fff;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.loader{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    border:10px solid rgba(255,255,255,0.15);
+    border-top:10px solid #22c55e;
+    animation:spin 1s linear infinite;
+    margin-bottom:30px;
+}
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+.loading-text{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.loading-sub{
+    color:#cbd5e1;
+}
+
+/* ================= FAILED ================= */
+
+#failedPage{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#fff;
+    z-index:99999;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.failed-box{
+    max-width:500px;
+}
+
+.failed-icon{
+    font-size:90px;
+    margin-bottom:20px;
+}
+
+.failed-title{
+    font-size:34px;
+    font-weight:bold;
+    color:#dc2626;
+    margin-bottom:15px;
+}
+
+.failed-desc{
+    color:#666;
+    line-height:1.7;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+    .logo{
+        font-size:28px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    .card h2{
+        font-size:22px;
+    }
+
+    #timer{
+        font-size:24px;
+    }
+
+    .total-box h3{
+        font-size:22px;
+    }
+
+    .loading-text{
+        font-size:20px;
+    }
+
+    .failed-title{
+        font-size:26px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOADING ================= -->
+
+<div id="loadingPage">
+
+    <div class="loader"></div>
+
+    <div class="loading-text">
+        Pembayaran Sedang Diproses...
+    </div>
+
+    <div class="loading-sub">
+        Mohon tunggu beberapa saat
+    </div>
+
+</div>
+
+<!-- ================= FAILED ================= -->
+
+<div id="failedPage">
+
+    <div class="failed-box">
+
+        <div class="failed-icon">
+            ❌
+        </div>
+
+        <div class="failed-title">
+            Pembayaran Failed
+        </div>
+
+        <div class="failed-desc">
+            Periksa kembali data pembelian Anda.<br>
+            Anda akan diarahkan kembali ke halaman awal...
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= HEADER ================= -->
+
+<div class="topbar">
+
+    <div class="logo">
+        LOKÉT
+    </div>
+
+</div>
+
+<!-- ================= BANNER ================= -->
+
+<div class="banner">
+    <img src="banner.jpg" alt="Banner">
+</div>
+
+<div class="container">
+
+<!-- ================= TIMER ================= -->
+
+<div class="timer-box">
+
+    <h2>Waktu Pengisian Formulir</h2>
+
+    <div id="timer">
+        15:00
+    </div>
+
+</div>
+
+<!-- ================= PAGE 1 ================= -->
+
+<div class="page active" id="page1">
+
+    <div class="card">
+
+        <h2>Data Pemesanan</h2>
+
+        <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" id="nama">
+        </div>
+
+        <div class="form-group">
+            <label>Nomor Identitas</label>
+            <input type="text" id="identitas" placeholder="NIK / SIM / PASPORT / KARTU PELAJAR">
+        </div>
+
+        <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="email">
+        </div>
+
+        <div class="form-group">
+            <label>No. Whatsapp</label>
+            <input type="tel" id="wa">
+        </div>
+
+        <div class="form-group">
+            <label>Alamat Lengkap</label>
+            <textarea id="alamat"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Jenis Tiket</label>
+
+            <select id="ticketType">
+                <option value="">Pilih Tiket</option>
+                <option value="2750000">VIP PACKAGE - Rp. 2.750.000</option>
+                <option value="2500000">CAT 1 A & B - Rp. 2.500.000</option>
+                <option value="2250000">CAT 2 A & B - Rp. 2.250.000</option>
+                <option value="1850000">CAT 3 A & B - Rp. 1.850.000</option>
+                <option value="1450000">CAT 4 A & B - Rp. 1.450.000</option>
+                <option value="1250000">CAT 5 A & B - Rp. 1.250.000</option>
+                <option value="850000">CAT 6 A & B - Rp. 850.000</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Jumlah Tiket</label>
+
+            <select id="ticketQty">
+                <option value="">Pilih Jumlah</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+            </select>
+        </div>
+
+        <div class="total-box">
+
+            <div>Total Pembayaran</div>
+
+            <h3 id="totalText">
+                Rp. 0
+            </h3>
+
+        </div>
+
+    </div>
+
+    <button class="btn" id="nextBtn" disabled>
+        Selanjutnya
+    </button>
+
+</div>
+
+<!-- ================= PAGE 2 ================= -->
+
+<div class="page" id="page2">
+
+    <div class="card">
+
+        <h2>Ringkasan Pembelian</h2>
+
+        <div id="summary"></div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>QRIS Pembayaran</h2>
+
+        <div class="qris">
+
+            <img src="qris-pembayaran.png" alt="QRIS">
+
+        </div>
+
+        <div class="payment-note">
+            Masukan sesuai nominal diatas.<br>
+            Pembayaran yang tidak sesuai nominal akan otomatis gagal diverifikasi sistem.
+        </div>
+
+        <div class="form-group" style="margin-top:20px;">
+            <label>Upload Bukti Pembayaran</label>
+
+            <input type="file" id="paymentProof" accept="image/*">
+        </div>
+
+        <div class="checkbox">
+
+            <input type="checkbox" id="agree">
+
+            <label for="agree">
+                Saya telah melakukan pembayaran
+            </label>
+
+        </div>
+
+    </div>
+
+    <button class="btn" id="payBtn" disabled>
+        Bayar Sekarang
+    </button>
+
+</div>
+
+</div>
+
+<script>
+
+/* ================= TIMER ================= */
+
+let duration = 15 * 60;
+
+const timer = setInterval(function(){
+
+    let minutes = Math.floor(duration / 60);
+    let seconds = duration % 60;
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    document.getElementById("timer").innerHTML =
+        minutes + ":" + seconds;
+
+    duration--;
+
+    if(duration < 0){
+
+        clearInterval(timer);
+
+        alert("Waktu pengisian habis!");
+
+        location.reload();
+
+    }
+
+},1000);
+
+/* ================= TOTAL ================= */
+
+const inputs = [
+    "nama",
+    "identitas",
+    "email",
+    "wa",
+    "alamat",
+    "ticketType",
+    "ticketQty"
+];
+
+inputs.forEach(id => {
+    document.getElementById(id).addEventListener("input", validateForm);
+    document.getElementById(id).addEventListener("change", validateForm);
+});
+
+function validateForm(){
+
+    let valid = true;
+
+    inputs.forEach(id => {
+
+        if(document.getElementById(id).value === ""){
+            valid = false;
+        }
+
+    });
+
+    document.getElementById("nextBtn").disabled = !valid;
+
+    calculateTotal();
+}
+
+function calculateTotal(){
+
+    const price =
+        parseInt(document.getElementById("ticketType").value || 0);
+
+    const qty =
+        parseInt(document.getElementById("ticketQty").value || 0);
+
+    const total = price * qty;
+
+    document.getElementById("totalText").innerHTML =
+        "Rp. " + total.toLocaleString("id-ID");
+}
+
+/* ================= PAGE 2 ================= */
+
+document.getElementById("nextBtn").onclick = function(){
+
+    document.getElementById("page1").classList.remove("active");
+
+    document.getElementById("page2").classList.add("active");
+
+    const nama = document.getElementById("nama").value;
+    const tiket = document.getElementById("ticketType").options[
+        document.getElementById("ticketType").selectedIndex
+    ].text;
+
+    const qty = document.getElementById("ticketQty").value;
+
+    const total = document.getElementById("totalText").innerHTML;
+
+    document.getElementById("summary").innerHTML = `
+        <p style="margin-bottom:10px;">
+            <b>Nama :</b> ${nama}
+        </p>
+
+        <p style="margin-bottom:10px;">
+            <b>Jenis Tiket :</b> ${tiket}
+        </p>
+
+        <p style="margin-bottom:10px;">
+            <b>Jumlah Tiket :</b> ${qty}
+        </p>
+
+        <p style="margin-bottom:10px;">
+            <b>Total :</b> ${total}
+        </p>
+    `;
+};
+
+/* ================= PAYMENT VALIDATION ================= */
+
+const agree =
+    document.getElementById("agree");
+
+const paymentProof =
+    document.getElementById("paymentProof");
+
+function validatePayment(){
+
+    const valid =
+        agree.checked &&
+        paymentProof.files.length > 0;
+
+    document.getElementById("payBtn").disabled =
+        !valid;
+}
+
+agree.addEventListener("change", validatePayment);
+paymentProof.addEventListener("change", validatePayment);
+
+/* ================= PAY ================= */
+
+document.getElementById("payBtn").onclick = function(){
+
+    document.getElementById("loadingPage").style.display =
+        "flex";
+
+    setTimeout(function(){
+
+        document.getElementById("loadingPage").style.display =
+            "none";
+
+        document.getElementById("failedPage").style.display =
+            "flex";
+
+        setTimeout(function(){
+
+            location.reload();
+
+        },3000);
+
+    },60000);
+
+};
+
+</script>
+
+</body>
+</html>
